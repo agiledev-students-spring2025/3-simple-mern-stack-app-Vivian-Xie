@@ -5,7 +5,8 @@ function AboutPage() {
     const [aboutData, setAboutData] = useState(null);
 
     useEffect(() => {
-        axios.get('http://localhost:7001/about')
+        // axios.get(`${process.env.REACT_APP_BACKEND_URL}/about`)
+        axios.get('http://localhost:5002/about')
             .then(response => {
                 setAboutData(response.data);
             });
@@ -15,9 +16,9 @@ function AboutPage() {
 
     return (
         <div>
-            <h1>About Us</h1>
+            <h1>About</h1>
             <img 
-                src={aboutData.imageUrl} 
+                src={'http://localhost:5002'+aboutData.imageUrl} 
                 alt={aboutData.name} 
                 style={{ width: '200px', borderRadius: '50%' }}
             />

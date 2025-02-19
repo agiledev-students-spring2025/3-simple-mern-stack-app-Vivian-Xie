@@ -6,7 +6,10 @@ const mongoose = require('mongoose')
 
 const app = express() // instantiate an Express object
 app.use(morgan('dev', { skip: (req, res) => process.env.NODE_ENV === 'test' })) // log all incoming requests, except when in unit test mode.  morgan has a few logging default styles - dev is a nice concise color-coded style
-app.use(cors()) // allow cross-origin resource sharing
+app.use(cors({
+  origin: 'http://localhost:7002', // 精确匹配前端地址
+  credentials: true // 如果需要传递cookie等凭证
+})) // allow cross-origin resource sharing
 
 // use express's builtin body-parser middleware to parse any data included in a request
 app.use(express.json()) // decode JSON-formatted incoming POST data
@@ -82,11 +85,10 @@ app.post('/messages/save', async (req, res) => {
 
 app.get('/about', async (req, res) => {
   try {
-    // 返回包含个人信息的 JSON 数据
     res.json({
-      name: "Your Name",
-      bio: "I'm a full-stack developer passionate about building web applications...",
-      imageUrl: "/images/your-photo.jpg" // 指向静态文件目录中的图片
+      name: "Vivian Xie",
+      bio: "I'm a full-stack developer from Shanghai who is passionate about building web applications...",
+      imageUrl: "/images/photo.jpg" 
     })
   } catch (err) {
     console.error(err)
