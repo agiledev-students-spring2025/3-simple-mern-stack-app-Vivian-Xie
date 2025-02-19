@@ -12,6 +12,8 @@ app.use(cors()) // allow cross-origin resource sharing
 app.use(express.json()) // decode JSON-formatted incoming POST data
 app.use(express.urlencoded({ extended: true })) // decode url-encoded incoming POST data
 
+
+app.use(express.static('public'))
 // connect to database
 mongoose
   .connect(`${process.env.DB_CONNECTION_STRING}`)
@@ -77,6 +79,22 @@ app.post('/messages/save', async (req, res) => {
     })
   }
 })
+
+app.get('/about', async (req, res) => {
+  try {
+    // 返回包含个人信息的 JSON 数据
+    res.json({
+      name: "Your Name",
+      bio: "I'm a full-stack developer passionate about building web applications...",
+      imageUrl: "/images/your-photo.jpg" // 指向静态文件目录中的图片
+    })
+  } catch (err) {
+    console.error(err)
+    res.status(500).json({ error: 'Failed to load about data' })
+  }
+})
+
+
 
 // export the express app we created to make it available to other modules
 module.exports = app // CommonJS export style!
